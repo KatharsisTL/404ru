@@ -1,44 +1,44 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
-
-$(document).ready(function() {
-
 var deadline = new Date('November 1, 2019 00:00:30');
-
 var msMinute = 60*1000,
     msHour = 60*60*1000,
     msDay = 60*60*24*1000;
-  
-init();
-
+var cd;
+ 
 function init() {
-	var today = new Date();
-	update_time(today)
+    cd = document.getElementById("party_countdown");
+    update_time();
+    setInterval(function() {
+        update_time();
+    }, 1000);
 }
-function update_time(today) {
-	var countdown = Math.floor((deadline - today) / msDay) + ":" + get_hours(today) + ":" + get_minutes(today) + ":" + get_seconds(today);
-	$("#party_countdown").text(countdown)
-}
-function get_hours(today) {
-	var hours = Math.floor(((deadline - today) % msDay) / msHour);
-	if (hours<=9) hours = "0" + hours;
-	return hours
-}
-function get_minutes(today) {
-	var minutes = Math.floor(((deadline - today) % msDay % msHour) / msMinute);
-	if (minutes<=9) minutes = "0" + minutes;
-	return minutes
-}
-function get_seconds(today) {
-	var seconds = Math.floor(((deadline - today) % msDay % msHour % msMinute) / 1000);
-	if (seconds<=9) seconds = "0" + seconds;
-	return seconds
-}
-setInterval(function() {
+
+function update_time() {
     var today = new Date();
-    update_time(today);
-}, 1000)
-});
+    var countdown = Math.floor((deadline - today) / msDay) + ":" + get_hours(today) + ":" + 		get_minutes(today) + ":" + get_seconds(today);
+    cd.innerHTML = countdown;
+}
+
+function get_hours(today) {
+    var hours = Math.floor(((deadline - today) % msDay) / msHour);
+    if (hours<=9) hours = "0" + hours;
+    return hours
+}
+
+function get_minutes(today) {
+    var minutes = Math.floor(((deadline - today) % msDay % msHour) / msMinute);
+    if (minutes<=9) minutes = "0" + minutes;
+    return minutes
+}
+
+function get_seconds(today) {
+    var seconds = Math.floor(((deadline - today) % msDay % msHour % msMinute) / 1000);
+    if (seconds<=9) seconds = "0" + seconds;
+    return seconds
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
 </script>
 
 <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
